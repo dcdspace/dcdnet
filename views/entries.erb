@@ -1,0 +1,436 @@
+<!-- MAIN PAGE OF WEBSITE, THIS IS THE PROFILE PAGE -->
+
+<nav style="background-color: #f5f5f5" class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin: 0px;">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">DCD Net</a>
+    </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.email %><b class="caret"></b></a>
+        <ul class="dropdown-menu" role="menu">
+          <li><a href="/profile/me"><span class="glyphicon glyphicon-user"></span> <%= current_user.name %></a></li>
+          <li class="divider"></li>
+          <li><a href="/logout"><span class="glyphicon glyphicon-off"></span> Log Out</a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div id="container">
+  <div style="margin-right: 10px; display: none" id="rightHeader">
+    <span align="right" style="float: right">Logged in as <a href="/profile/me"><b><%= current_user.name %></b> (<%= current_user.email %>)</a></span><br />
+<span align="right" style="float: right"><button class="btn btn-warning" onclick="window.location = '/logout';">Sign Out Of Google</button>
+</span>
+  </div>
+  </span><br />
+  <% if my_profile == true %>
+      <h3 align="center" style="color: red">This is your profile</h3>
+  <% end %>
+  <% if is_friends == true && my_profile == false %>
+      <h3 align="center" style="color: orangered">You are friends with this person!</h3>
+  <% end %>
+  <div align="left" id="notifications" class="panel panel-primary">
+    <div class="panel-heading">
+      <b>Notifications:</b><br />
+    </div>
+    <div class="panel-body">
+      <i>Pending Requests:</i>
+      <% if @unconfirmed_list.count == 0 %>
+          <br />
+          <li><u>None</u></li><br />
+      <% else %>
+          <ul>
+            <% @unconfirmed_list.each_with_index do |friend, index|%>
+                <li><a href="/profile/<%= friend.id %>"><%= friend.name %></a> - <form method="post" action="/cancelrequest" style="display: inline">
+                  <input type="hidden" value="<%= @friends_unconfirmed[index].id %>" name="friend_id">
+                  <button class="btn btn-warning" type="submit"><span class="glyphicon glyphicon-ban-circle"></span> Cancel</button>
+                </form></li>
+            <% end %>
+
+          </ul>
+      <% end %>
+      <i>Friend Requests:</i>
+      <% if @approval_list.count == 0 %>
+          <br />
+          <li><u>None</u></li><br />
+      <% else %>
+          <ul>
+            <% @approval_list.each_with_index do |friend, index|%>
+                <li><a href="/profile/<%= friend.id %>"><%= friend.name %></a> - <form method="post" action="/acceptfriend" style="display: inline">
+                  <input type="hidden" value="<%= @friends_approval[index].id %>" name="friend_id">
+                  <input class="btn btn-success" type="submit" value="Accept">
+                </form> or
+                  <form onsubmit="return confirm('Do you really want to reject friendship from <%= friend.name %>?');" method="post" action="/cancelrequest" style="display: inline">
+                    <input type="hidden" value="<%= @friends_approval[index].id %>" name="friend_id">
+                    <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span> Reject</button>
+                  </form>
+                </li>
+            <% end %>
+          </ul>
+      <% end %>
+    </div>
+  </div>
+  <br /><br />
+  <div align="center">
+    <h1 style="color: #fff073"><%= escape_html(@user.name) %></h1>
+    <img width="50" height="50" src="<%=@user.picture  %>"><br />
+
+    <a target="_blank" id="emailLink" href="mailto:<%= escape_html(@user.email) %>"><i><%= escape_html(@user.email) %></i></a>
+  </div>
+  <br />
+  <% if my_profile == true %>
+      <form action="/entry/create">
+        <div align="center" id="newButton"><button class="btn btn-primary" type="submit"><span class="glyphicon glyphicon-plus"></span> Create a new post!
+        </button></div>
+      </form>
+  <% end %>
+  <% if is_friends == true || my_profile == true %>
+      <br />
+      <% if @entries.count == 0%>
+
+          <h2 align="right" style="margin-right: 300px; color: #ffffff">No Blog Posts</h2>
+
+      <% else %>
+          <h2 id="noPosts" class="hide" align="right" style="margin-right: 300px; color: #ffffff">No Blog Posts</h2>
+          <div align="right" id="post-container">
+            <CENTER>
+              <h2 style="color: #ffffff; font-family: book antiqua;">STORIES</h2>
+              <% @entries.each_with_index do |entry, index| %>
+                  <div id="<%= entry.id %>" class="entries" style="margin-bottom: 21px">
+                    <div style="border: 2px solid #4582ec" class="panel panel-primary">
+                      <div style="border-radius: 0px" class="panel-heading">
+                        <h4><%= h entry.subject %></h4>
+                      </div>
+                      <div class="panel-body">
+                        <% if my_profile == true %>
+                            <a class="btn btn-success" href="/entry/<%= entry.id %>/update?realID=<%= index %>"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                            <form class="inline" method="post" action="#">
+                              <button id="<%= entry.id %>" type="submit" class="btn btn-danger entryDelete"><span class="glyphicon glyphicon-trash"></span> Delete  <span id="loadingEntries<%= entry.id %>"></span>
+                              </button>
+                            </form>
+                            <br />
+                            <br />
+                        <% end %>
+                        <p class="body"><%= h entry.body %></p>
+                        <h5 class="author">Author: <a href="/profile/<%= entry.user.id %>"><%= h entry.author %></a></h5>
+                      </div>
+                      <ul id="comments" class="list-group">
+                        <li id="commentForm" class="list-group-item">
+                          <form class="form-inline" method="post" action="#">
+                            <div id="commentInput<%= entry.id %>" style="display: inline">
+
+                              <input autocomplete="off" name="body" id="a<%= entry.id %>" class="form-control commentForm<%= entry.id %>" type="text" placeholder="type a comment">
+                            </div>
+                            <input type="submit" id="<%= entry.id %>" class="commentSubmit btn btn-default" value="Submit">
+                            <label class="error" for="body" id="body_error<%= entry.id.to_s %>">This field is required.</label>
+                            <span id="loading<%= entry.id %>"></span>
+
+                            <input id="friend_id" type="hidden" value="<%= @user.id %>" name="friend_id">
+                            <input id="entry_id" type="hidden" value="<%= entry.id %>" name="entry_id">
+                          </form>
+                        </li>
+                        <ul id="commentEntries<%= entry.id %>">
+                          <% entry.comments.reverse.each do |comment| %>
+                              <li id="<%= comment.id.to_s %>" class="list-group-item">
+                                <div class="panel panel-info">
+                                  <div class="panel-heading"><div class="panel-title"><a style="color: #dddfff; border-bottom: 1px dashed yellow;" href="/profile/<%= comment.user.id %>"><%= comment.user.name %></a></div> - <%= comment.created_at %><span style="float: right" align="right" id="loadingDelete<%= comment.id %>"> </span></div>
+                                  <div class="panel-body">
+                                    <% if my_profile == true || comment.user == current_user %>
+                                        <form align="right" class="inline" style="float: right" method="post" action="#">
+                                          <button id="<%= comment.id.to_s %>" type="submit" class="btn btn-danger commentDelete"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                                          <input class="entry_id" id="<%= entry.id.to_s %>" type="hidden" value="<%= entry.id.to_s %>" name="entry_id">
+
+                                        </form>
+                                    <% end %>
+                                    <p><%= comment.body %></p>
+                                  </div>
+                                </div>
+                              </li>
+
+                          <% end %>
+                        </ul>
+                        <!-- Default panel contents -->
+
+                      </ul>
+                    </div>
+                  </div>
+
+              <% end %>
+            </CENTER>
+          </div>
+      <% end %>
+
+      <div id="bio-container" class="panel panel-primary" style="margin-bottom: 0px; padding-bottom: 0px;">
+        <div class="panel-heading">
+          <% if my_profile == true %>
+
+              <button align="right" style="float: right; display: inline-block" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+                Edit
+              </button>
+          <% end %>
+          <h4>Bio</h4>
+        </div>
+        <div style="background-color: snow" class="panel-body">
+
+          <h2>Basic Info</h2>
+          <ul id="bio-list">
+            <li><b>Name:</b> <%= @user.name %></li>
+            <li><b>Birthday:</b> <%= @user.birthday %></li>
+            <li><b>Age:</b> <%= @user.age %></li>
+
+          </ul>
+          <h2>Contact Info</h2>
+          <ul id="bio-list">
+            <li><b>Email:</b> <a target="_blank" id="emailLink" href="mailto:<%= escape_html(@user.email) %>"><i><%= escape_html(@user.email) %></i></a></li>
+            <li><b>Address:</b> <%= @user.address %></li>
+            <li><b>City:</b> <%= @user.city %></li>
+            <li><b>State:</b> <%= @user.state %></li>
+            <li><b>Country: </b> United States</li>
+          </ul>
+          <h2>School Info</h2>
+          <ul id="bio-list">
+            <li><b>School:</b> <%= @user.school %></li>
+            <li><b>Grade:</b> <%= @user.grade %></li>
+          </ul>
+
+        </div>
+      </div>
+
+
+      <style>
+          #footer {
+
+          }
+      </style>
+      </div>
+  <% else %>
+      <% if @unconfirmed_list.include? @user %>
+          <h3 align="center" style="color: #14ff00"><%= @user.name %> must approve your request before you can view their profile</h3>
+      <% elsif @approval_list.include? @user %>
+          <h3 align="center" style="color: #14ff00"><form method="post" action="/acceptfriend" style="display: inline">
+            <input type="hidden" value="<%= @friends_approval[@approval_list.index(@user)].id %>" name="friend_id">
+            <input class="btn btn-success" type="submit" value="Accept">
+          </form> or
+            <form onsubmit="return confirm('Do you really want to reject friendship from <%= @user.name %>?');" method="post" action="/cancelrequest" style="display: inline">
+              <input type="hidden" value="<%= @friends_approval[@approval_list.index(@user)].id %>" name="friend_id">
+              <input class="btn btn-danger" type="submit" value="Reject"> <%= @user.name %>'s friend request.
+            </form></h3>
+      <% else %>
+          <h3 align="center" style="color: #14ff00">
+            <form align="center" style="display: inline; float: center" method="post" action="#">
+              <input type="hidden" value="<%= @user.id %>" name="friend_id">
+              <button id="<%= @user.id %>" class="btn btn-primary friendUser" type="submit"><span class="glyphicon glyphicon-user"></span>Friend <%= @user.name %> to see their info!</button>
+            </form> </h3>
+
+      <% end %>
+  <% end %>
+
+  </div>
+
+  <div id="footer">
+
+    <div align="left" id="friends" class="main">
+      <% if my_profile == true %>
+          <h2>List of my friends</h2>
+      <% else %>
+          <h2>List of <%= @user.name %>'s friends</h2>
+      <% end %>
+      <% if @friend_list.count == 0 %>
+          <h4 style="color: #ff0000">No Friends :(</h4>
+      <% else %>
+          <% @friend_list.each_with_index do |friend, index| %>
+              <li><a href="/profile/<%= friend.id %>"><%= friend.name %></a> - <a class="emailLink" target="_blank" id="emailLink" href="mailto:<%= friend.email %>"><i><%= friend.email %></i></a>
+                <form onsubmit="return confirm('Do you really want to un-friend <%= friend.name %>?');" style="display: inline" method="post" action="/unfriend">
+                  <input type="hidden" value="<%= @friends[index].id %>" name="friend_id">
+                  <% if friend.id == @user_id %>
+                      <input type="submit" value="You" disabled="disabled" class="btn btn-default disabled">
+                  <% else %>
+                      <% if my_profile == true %>
+
+                          <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Un-Friend</button>
+                      <% end %>
+                  <% end %>
+                </form>
+              </li>
+          <% end %>
+      <% end %>
+    </div>
+    <br />
+    <div align="left" id="users" class="main">
+      <h2>List of Users</h2>
+      <% if @users.count == 0 %>
+          <h4 style="color: #ff0000">No users!</h4>
+      <% else %>
+          <% @users.each do |user| %>
+              <li><a href="/profile/<%= user.id %>"><%= user.name %></a> - <a class="emailLink" target="_blank" id="emailLink" href="mailto:<%= user.email %>"><i><%= user.email %></i></a>
+                <% if user.id == current_user.id %>
+                    <input type="submit" value="You" disabled="disabled" class="btn btn-default disabled">
+                <% elsif @unconfirmed_list.include? user %>
+                    <input type="submit" value="Request Pending" disabled="disabled" class="btn btn-default disabled">
+                <% elsif @approval_list.include? user %>
+                    <form method="post" action="/acceptfriend" style="display: inline">
+                      <input type="hidden" value="<%= @friends_approval[@approval_list.index(user)].id %>" name="friend_id">
+                      <input class="btn btn-success" type="submit" value="Accept">
+                    </form> or
+                    <form onsubmit="return confirm('Do you really want to reject friendship from <%= user.name %>?');" method="post" action="/cancelrequest" style="display: inline">
+                      <input type="hidden" value="<%= @friends_approval[@approval_list.index(user)].id %>" name="friend_id">
+                      <button class="btn btn-danger" type="submit"><span class="glyphicon glyphicon-remove"></span> Reject</button>
+                    </form>
+                <% elsif @my_friends.include? user %>
+                    <input type="submit" value="Already Friends" disabled="disabled" class="btn btn-default disabled">
+                <% else %>
+                    <form style="display: inline" method="post" action="#">
+                      <input type="hidden" value="<%= user.id %>" name="friend_id">
+                      <button id="<%= user.id %>" class="btn btn-primary friendUser" type="submit"><span class="glyphicon glyphicon-user"></span>Friend</button>
+                    </form>
+
+                <% end %>
+              </li>
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+
+
+  <!--MODAL POPOVER -->
+  <script>
+      $(document).ready(function(){
+          $('#grade').val('<%= current_user.grade %>');
+          $('#state').val('<%= current_user.state %>');
+      });
+  </script>
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div style="border: 2px solid #000000" class="modal-content">
+        <div style="background-color: royalblue" class="modal-header">
+          <button id="close" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 style="color: #ffffff" class="modal-title" id="myModalLabel">Edit Profile</h4>
+        </div>
+        <div class="modal-body">
+          <CENTER>
+            <div>
+              <form method="post" action="<%=url('/bio') %>">
+                <h2>Personal Info</h2>
+                <div class="element" id="" style="display: inline">
+                  <label for="name">Name:</label> <input id="name" disabled class="form-control" type="text" name="name"  value="<%= current_user.name %>"><br />
+                </div>
+
+                <div class="element" id="ageInput" style="display: inline">
+                  <label for="age">Age:</label> <input id="age" class="form-control" type="number" min="1" max="110" name="age" value="<%= current_user.age %>"><br />
+                </div>
+
+                <div class="element" id="ageInput" style="display: inline">
+                  <label for="bday">Birthday:</label> <input id="bday" class="form-control" type="date" name="bday" value="<%= current_user.birthday %>"><br />
+                </div>
+                <h2>Contact Info</h2>
+                <div class="element" id="" style="display: inline">
+                  <label for="email">Email:</label> <input id="name" disabled class="form-control" type="text" name="email"  value="<%= current_user.email %>"><br />
+                </div>
+                <div class="element" id="ageInput" style="display: inline">
+                  <label for="address">Address:</label> <input id="address" class="form-control" type="text" name="address" value="<%= current_user.address %>"><br />
+                </div>
+                <div class="element" id="ageInput" style="display: inline">
+                  <label for="city">City:</label> <input id="address" class="form-control" type="text" name="city" value="<%= current_user.city %>"><br />
+                </div>
+                <div class="element" id="ageInput" style="display: inline">
+                  <label for="state">State:</label>
+                  <select id="state" name="state" class="form-control" value="<%= current_user.state %>">
+                    <option selected value="">State...</option>
+                    <option value="Alabama">Alabama</option>
+                    <option value="Alaska">Alaska</option>
+                    <option value="Arizona">Arizona</option>
+                    <option value="Arkansas">Arkansas</option>
+                    <option value="California">California</option>
+                    <option value="Colorado">Colorado</option>
+                    <option value="Connecticut">Connecticut</option>
+                    <option value="Delaware">Delaware</option>
+                    <option value="Florida">Florida</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Hawaii">Hawaii</option>
+                    <option value="Idaho">Idaho</option>
+                    <option value="Illinois">Illinois</option>
+                    <option value="Indiana">Indiana</option>
+                    <option value="Iowa">Iowa</option>
+                    <option value="Kansas">Kansas</option>
+                    <option value="Kentucky">Kentucky</option>
+                    <option value="Louisiana">Louisiana</option>
+                    <option value="Maine">Maine</option>
+                    <option value="Maryland">Maryland</option>
+                    <option value="Massachusetts">Massachusetts</option>
+                    <option value="Michigan">Michigan</option>
+                    <option value="Minnesota">Minnesota</option>
+                    <option value="Mississippi">Mississippi</option>
+                    <option value="Missouri">Missouri</option>
+                    <option value="Montana">Montana</option>
+                    <option value="Nebraska">Nebraska</option>
+                    <option value="Nevada">Nevada</option>
+                    <option value="New Hampshire">New Hampshire</option>
+                    <option value="New Jersey">New Jersey</option>
+                    <option value="New Mexico">New Mexico</option>
+                    <option value="New York">New York</option>
+                    <option value="North Carolina">North Carolina</option>
+                    <option value="North Dakota">North Dakota</option>
+                    <option value="Ohio">Ohio</option>
+                    <option value="Oklahoma">Oklahoma</option>
+                    <option value="Oregon">Oregon</option>
+                    <option value="Pennsylvania">Pennsylvania</option>
+                    <option value="Rhode Island">Rhode Island</option>
+                    <option value="South Carolina">South Carolina</option>
+                    <option value="South Dakota">South Dakota</option>
+                    <option value="Tennessee">Tennessee</option>
+                    <option value="Texas">Texas</option>
+                    <option value="Utah">Utah</option>
+                    <option value="Vermont">Vermont</option>
+                    <option value="Virginia">Virginia</option>
+                    <option value="Washington">Washington</option>
+                    <option value="West Virginia">West Virginia</option>
+                    <option value="Wisconsin">Wisconsin</option>
+                    <option value="Wyoming">Wyoming</option>
+                  </select>
+
+                </div>
+                <h2>
+                  School Info
+                </h2>
+                <div class="element" id="" style="display: inline">
+                  <label for="subject">School:</label> <input id="name" class="form-control" type="text" name="school" value="<%= current_user.school %>" ><br />
+                </div>
+
+                <div class="element" id="ageInput" style="display: inline">
+                  <label for="age">Grade:</label>
+                  <select id="grade" style="width: 150px;" id="age" class="form-control" type="number" min="1" max="12" name="grade">
+                    <option value="" disabled>Grade...</option>
+                    <option value="Kindergarten">Kindergarten</option>
+                    <option value="1st">1st</option>
+                    <option value="2nd">2nd</option>
+                    <option value="3rd">3rd</option>
+                    <option value="4th">4th</option>
+                    <option value="5th">5th</option>
+                    <option value="6th">6th</option>
+                    <option value="7th">7th</option>
+                    <option value="8th">8th</option>
+                    <option value="9th">9th</option>
+                    <option value="10th">10th</option>
+                    <option value="11th">11th</option>
+                    <option value="12th">12th</option>
+                  </select>
+                  <br />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+                  <input id="entrySubmit" type="submit" class="btn btn-success" value="Submit">
+                </div>
+              </form>
+            </div>
+          </CENTER>
+        </div>
+
+
+      </div>
+    </div>
+  </div>

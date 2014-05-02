@@ -1,0 +1,15 @@
+<div class="main">
+  <h2>List of Users</h2>
+  <% @users.each do |user| %>
+      <li><%= user.name %> - <a target="_blank" id="emailLink" href="mailto:<%= user.email %>"><i><%= user.email %></i></a>
+        <form style="display: inline" method="post" action="/friend">
+          <input type="hidden" value="<%= user.id %>" name="friend_id">
+          <% if user.id == @user_id %>
+              <input type="submit" value="You" disabled="disabled" class="btn btn-default disabled">
+          <% else %>
+              <input type="submit" value="Friend" class="btn btn-default">
+          <% end %>
+        </form>
+      </li>
+  <% end %>
+</div>

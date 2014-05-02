@@ -1,0 +1,117 @@
+<body style="padding-top: 0px">
+<CENTER>
+  <h3 style="color: gold; font-family: cursive"><i><u>Welcome!</u></i></h3>
+  <h1 style="color: #ffffff">Please fill out your profile...</h1>
+  <div id="firstForm">
+    <form method="post" action="<%=url('/bio') %>">
+      <h2>Personal Info</h2>
+      <div class="element" id="" style="display: inline">
+        <label for="subject">Name:</label> <input id="name" disabled class="form-control" type="text" name="name"  value="<%= user.name %>"><br />
+      </div>
+
+      <div class="element" id="ageInput" style="display: inline">
+        <label for="age">Age:</label> <input id="age" class="form-control" type="number" min="1" max="110" name="age"><br />
+      </div>
+
+      <div class="element" id="ageInput" style="display: inline">
+        <label for="bday">Birthday:</label> <input id="bday" class="form-control" type="date" name="bday"><br />
+      </div>
+      <h2>Contact Info</h2>
+      <div class="element" id="" style="display: inline">
+        <label for="subject">Email:</label> <input id="name" disabled class="form-control" type="text" name="email"  value="<%= user.email %>"><br />
+      </div>
+      <div class="element" id="ageInput" style="display: inline">
+        <label for="address">Address:</label> <input id="address" class="form-control" type="text" name="address"><br />
+      </div>
+      <div class="element" id="ageInput" style="display: inline">
+        <label for="address">City:</label> <input id="address" class="form-control" type="text" name="city"><br />
+      </div>
+      <div class="element" id="ageInput" style="display: inline">
+        <label for="address">State:</label>
+        <select name="state" class="form-control">
+          <option selected value="">State...</option>
+          <option value="Alabama">Alabama</option>
+          <option value="Alaska">Alaska</option>
+          <option value="Arizona">Arizona</option>
+          <option value="Arkansas">Arkansas</option>
+          <option value="California">California</option>
+          <option value="Colorado">Colorado</option>
+          <option value="Connecticut">Connecticut</option>
+          <option value="Delaware">Delaware</option>
+          <option value="Florida">Florida</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Hawaii">Hawaii</option>
+          <option value="Idaho">Idaho</option>
+          <option value="Illinois">Illinois</option>
+          <option value="Indiana">Indiana</option>
+          <option value="Iowa">Iowa</option>
+          <option value="Kansas">Kansas</option>
+          <option value="Kentucky">Kentucky</option>
+          <option value="Louisiana">Louisiana</option>
+          <option value="Maine">Maine</option>
+          <option value="Maryland">Maryland</option>
+          <option value="Massachusetts">Massachusetts</option>
+          <option value="Michigan">Michigan</option>
+          <option value="Minnesota">Minnesota</option>
+          <option value="Mississippi">Mississippi</option>
+          <option value="Missouri">Missouri</option>
+          <option value="Montana">Montana</option>
+          <option value="Nebraska">Nebraska</option>
+          <option value="Nevada">Nevada</option>
+          <option value="New Hampshire">New Hampshire</option>
+          <option value="New Jersey">New Jersey</option>
+          <option value="New Mexico">New Mexico</option>
+          <option value="New York">New York</option>
+          <option value="North Carolina">North Carolina</option>
+          <option value="North Dakota">North Dakota</option>
+          <option value="Ohio">Ohio</option>
+          <option value="Oklahoma">Oklahoma</option>
+          <option value="Oregon">Oregon</option>
+          <option value="Pennsylvania">Pennsylvania</option>
+          <option value="Rhode Island">Rhode Island</option>
+          <option value="South Carolina">South Carolina</option>
+          <option value="South Dakota">South Dakota</option>
+          <option value="Tennessee">Tennessee</option>
+          <option value="Texas">Texas</option>
+          <option value="Utah">Utah</option>
+          <option value="Vermont">Vermont</option>
+          <option value="Virginia">Virginia</option>
+          <option value="Washington">Washington</option>
+          <option value="West Virginia">West Virginia</option>
+          <option value="Wisconsin">Wisconsin</option>
+          <option value="Wyoming">Wyoming</option>
+        </select>
+
+      </div>
+      <h2>
+        School Info
+      </h2>
+      <div class="element" id="" style="display: inline">
+        <label for="subject">School:</label> <input id="name" class="form-control" type="text" name="school" ><br />
+      </div>
+
+      <div class="element" id="ageInput" style="display: inline">
+        <label for="age">Grade:</label>
+        <select style="width: 150px;" id="age" class="form-control" type="number" min="1" max="12" name="grade">
+          <option value="" selected disabled>Grade...</option>
+          <option value="Kindergarten">Kindergarten</option>
+          <option value="1st">1st</option>
+          <option value="2nd">2nd</option>
+          <option value="3rd">3rd</option>
+          <option value="4th">4th</option>
+          <option value="5th">5th</option>
+          <option value="6th">6th</option>
+          <option value="7th">7th</option>
+          <option value="8th">8th</option>
+          <option value="9th">9th</option>
+          <option value="10th">10th</option>
+          <option value="11th">11th</option>
+          <option value="12th">12th</option>
+        </select>
+        <br />
+      </div>
+      <input id="entrySubmit" type="submit" class="btn btn-success" value="Submit">
+    </form>
+  </div>
+</CENTER>
+</body>

@@ -1,0 +1,18 @@
+<CENTER>
+  <div align="center" class="main">
+    <h1>Create a New Post</h1>
+    <form method="post" action="<%=url('/entry/create') %>">
+      <input type="hidden" name="email" value="<%= @email %>>">
+      <div id="subjectInput" style="display: inline">
+        <label for="subject">Subject:</label> <input id="subject" class="form-control" type="text" name="subject"><br />
+        <label class="error" for="subject" id="subject_error">This field is required.</label>
+        <br /><br />
+      </div>
+      <label for="body">Body:</label> <textarea class="form-control" name="body"></textarea> <br />
+      <label for="author">Author: <%= user.name %></label><input value="<%= user.name %>" type="hidden" name="author"> <br />
+      <input id="entrySubmit" type="submit" class="btn btn-success" value="Submit">
+    </form>
+    <br />
+    <a class="btn btn-danger" href="/entries">Cancel</a>
+  </div>
+</CENTER>

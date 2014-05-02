@@ -1,0 +1,24 @@
+<head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+
+</head>
+<div id="mainpage">
+  <div id="header">
+    <h1>My name is <i><%= escape_html(people.name) %></i> </h1>
+  </div>
+  <div class="me">
+    <h2>
+      My email is <a target="_blank" id="emailLink" href="mailto:<%= escape_html(people.email) %>"><i><%= escape_html(people.email) %></i></a>
+    </h2>
+    <img id="proPic" src="<%= escape_html(people.picture) %>">
+
+  </div>
+</div>
+<script>
+    function signOut() {
+        gapi.auth.signOut();
+        window.location = '/logout';
+    }
+</script>
+<br />
+<button onclick="window.location = '/logout';">Sign Out Of Google</button>
