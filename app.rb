@@ -257,11 +257,13 @@ get '/profile/:id' do
   if session['credentials']
     my_profile = false
     is_friends = false
-    user = User.first(:id => params[:id])
     current_user = User.first(:email => session['email'])
     if params[:id] == 'me'
       redirect '/profile/' + current_user.id.to_s
-    end
+    else
+      user = User.first(:id => params[:id])
+
+
     if params[:id] == current_user.id.to_s
       my_profile = true
     else
@@ -340,9 +342,11 @@ get '/profile/:id' do
     else
       redirect '/'
     end
+      end
   else
     redirect '/'
-  end
+    end
+
 end
 
 #FIRST TIME LOGIN
