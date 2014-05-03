@@ -3,7 +3,7 @@ require 'sinatra'
 require 'omniauth'
 require 'google/omniauth'
 require 'google/api_client/client_secrets'
-#set :port, 9292
+set :port, 9292
 #DATABASE INITIALIZATION
 use Rack::ShowExceptions
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/orm_demo.db')
@@ -229,7 +229,7 @@ get '/entries' do
       @users = User.all.reverse
       user = User.first(:email => session['email'])
       @user_id = user.id
-      redirect '/profile/me'
+      redirect '/profile/' + @user_id.to_s
 
     else
       @logged_in = false
