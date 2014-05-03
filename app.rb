@@ -128,7 +128,6 @@ use OmniAuth::Builder do
 end
 
 #LOGIN
-enable :sessions
 
 get '/login' do
 
