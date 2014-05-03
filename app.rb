@@ -14,6 +14,7 @@ require './models/user.rb'
 require './models/friend.rb'
 require './models/comment.rb'
 enable :sessions
+set :session_secret, "dcdspace"
 
 
 #GOOGLE AUTH
