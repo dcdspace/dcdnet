@@ -13,7 +13,7 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/ORM@down__ORM.coverage" NAME="down: ORM Coverage Results" MODIFIED="1396289389898" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="ORM" />
-    <SUITE FILE_PATH="coverage/ORM@app.coverage" NAME="app Coverage Results" MODIFIED="1399080912478" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="ORM" />
+    <SUITE FILE_PATH="coverage/ORM@app.coverage" NAME="app Coverage Results" MODIFIED="1399080956151" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="ORM" />
     <SUITE FILE_PATH="coverage/ORM@up__ORM.coverage" NAME="up: ORM Coverage Results" MODIFIED="1396528992894" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="ORM" />
     <SUITE FILE_PATH="coverage/ORM@to__ORM.coverage" NAME="to: ORM Coverage Results" MODIFIED="1396289254324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="rcov" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" MODULE_NAME="ORM" />
   </component>
@@ -32,7 +32,7 @@
       <file leaf-file-name="app.rb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="231" column="42" selection-start="5280" selection-end="5280" vertical-scroll-proportion="0.9190372" vertical-offset="3045" max-vertical-offset="7290">
+            <state line="12" column="26" selection-start="333" selection-end="333" vertical-scroll-proportion="0.3938731" vertical-offset="0" max-vertical-offset="7320">
               <folding />
             </state>
           </provider>
@@ -746,7 +746,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="231" column="42" selection-start="5280" selection-end="5280" vertical-scroll-proportion="0.9190372" vertical-offset="3045" max-vertical-offset="7290">
+        <state line="12" column="26" selection-start="333" selection-end="333" vertical-scroll-proportion="0.3938731" vertical-offset="0" max-vertical-offset="7320">
           <folding />
         </state>
       </provider>

@@ -3,7 +3,9 @@ require 'sinatra'
 require 'omniauth'
 require 'google/omniauth'
 require 'google/api_client/client_secrets'
+if development?
 set :port, 9292
+end
 #DATABASE INITIALIZATION
 use Rack::ShowExceptions
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/orm_demo.db')
