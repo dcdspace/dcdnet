@@ -6,4 +6,5 @@ gem 'google-api-omniauth', '>= 0.1.0'
 gem 'sinatra'
 gem 'sequel'
 gem 'pg'
+gem 'thin'
 gem 'sqlite3', :group => :development

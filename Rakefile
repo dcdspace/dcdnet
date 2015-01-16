@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'sequel'
-require 'pg'
+require 'sqlite3'
 Sequel.extension :migration
 DB = Sequel.connect(ENV['DATABASE_URL'] || 'sqlite://db/orm_demo.db')
 

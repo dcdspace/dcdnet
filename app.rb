@@ -3,6 +3,9 @@ require 'sinatra'
 require 'omniauth'
 require 'google/omniauth'
 require 'google/api_client/client_secrets'
+require 'thin'
+set :server, 'thin'
+
 if development?
 set :port, 9292
 end
